@@ -1,20 +1,10 @@
-# vue-calendar
+## 技术栈：
+- 前端：vuetify+vue2
+- 数据库：firebase
 
-## Project setup
-```
-npm install
-```
+## 功能：
+- 日程功能
+- 图表统计
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
-# vuetify-calendar
+## 在线演示地址：
+[demo](https://danicachen.github.io/vuetify-calendar/)
