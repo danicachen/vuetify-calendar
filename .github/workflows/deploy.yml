@@ -36,9 +36,12 @@ jobs:
       run: yarn build
 
     # 将构建后的文件推送到 gh-pages
-    - name: Push to gh-pages
+    - name: Push to gh-pages     
+      uses: crazy-max/ghaction-github-pages@v2
+      with:
+        # 部署到 gh-pages 分支
+        target_branch: gh-pages
+        # 部署目录为 VuePress 的默认输出目录
       env:
         # 填写项目所在仓库地址
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PUBLISH_BRANCH:gh-pages
-        PUBLISH_DIR:./dist
