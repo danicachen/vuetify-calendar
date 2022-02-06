@@ -205,7 +205,6 @@ export default {
       const snapshot = await getDocs(collection(db, "calEvent"));
       const events = []
       snapshot.forEach((doc) => {
-        console.log(doc.id, " => ", doc.data());
         let appData = doc.data()
         appData.id = doc.id
         events.push(appData)
