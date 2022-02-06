@@ -4,10 +4,10 @@
       <v-sheet height="64">
         <v-toolbar flat color="white">
           <v-btn color="primary" dark @click.stop="dialog = true">
-            New Event
+            新日程
           </v-btn>
           <v-btn outlined class="mr-4" @click="setToday">
-            Today
+            今日
           </v-btn>
           <v-btn fab text small @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
@@ -26,16 +26,16 @@
             </template>
             <v-list>
               <v-list-item @click="type = 'day'">
-                <v-list-item-title>Day</v-list-item-title>
+                <v-list-item-title>日</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = 'week'">
-                <v-list-item-title>Week</v-list-item-title>
+                <v-list-item-title>周</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = 'month'">
-                <v-list-item-title>Month</v-list-item-title>
+                <v-list-item-title>月</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = '4day'">
-                <v-list-item-title>4 days</v-list-item-title>
+                <v-list-item-title>4天</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -46,13 +46,13 @@
         <v-card>
           <v-container>
             <v-form @submit.prevent="addEvent">
-              <v-text-field v-model="name" type="text" label="event name (required)"></v-text-field>
-              <v-text-field v-model="details" type="text" label="detail"></v-text-field>
-              <v-text-field v-model="start" type="date" label="start (required)"></v-text-field>
-              <v-text-field v-model="end" type="date" label="end (required)"></v-text-field>
-              <v-text-field v-model="color" type="color" label="color (click to open color menu)"></v-text-field>
-              <v-btn type="submit" color="primary" class="mr-4" @click.stop="dialog = false">
-                create event
+              <v-text-field v-model="name" type="text" label="事件（必填）"></v-text-field>
+              <v-text-field v-model="details" type="text" label="详情"></v-text-field>
+              <v-text-field v-model="start" type="date" label="开始 (必填)"></v-text-field>
+              <v-text-field v-model="end" type="date" label="结束 (必填)"></v-text-field>
+              <v-text-field v-model="color" type="color" label="颜色(点击打开选色器))"></v-text-field>
+              <v-btn type="submit" color="primary" class="mr-4" @click.stop="dialog= false">
+                添加
               </v-btn>
             </v-form>
           </v-container>
@@ -63,13 +63,13 @@
         <v-card>
           <v-container>
             <v-form @submit.prevent="addEvent">
-              <v-text-field v-model="name" type="text" label="event name (required)"></v-text-field>
-              <v-text-field v-model="details" type="text" label="detail"></v-text-field>
-              <v-text-field v-model="start" type="date" label="start (required)"></v-text-field>
-              <v-text-field v-model="end" type="date" label="end (required)"></v-text-field>
-              <v-text-field v-model="color" type="color" label="color (click to open color menu)"></v-text-field>
+              <v-text-field v-model="name" type="text" label="事件（必填）"></v-text-field>
+              <v-text-field v-model="details" type="text" label="详情"></v-text-field>
+              <v-text-field v-model="start" type="date" label="开始 (必填)"></v-text-field>
+              <v-text-field v-model="end" type="date" label="结束 (必填)"></v-text-field>
+              <v-text-field v-model="color" type="color" label="颜色(点击打开选色器))"></v-text-field>
               <v-btn type="submit" color="primary" class="mr-4" @click.stop="dialog = false">
-                create event
+                添加
               </v-btn>
             </v-form>
           </v-container>
@@ -95,10 +95,9 @@
   v-model="selectedOpen"
   :close-on-content-click="false"
   :activator="selectedElement"
-  full-width
   offset-x
   >
-  <v-card color="grey lighten-4" :width="350" flat>
+  <v-card color="grey lighten-4" min-width="350px" flat>
     <v-toolbar :color="selectedEvent.color" dark>
       <v-btn @click="deleteEvent(selectedEvent.id)" icon>
         <v-icon>mdi-delete</v-icon>
@@ -117,20 +116,20 @@
         type="text"
         style="width: 100%"
         :min-height="100"
-        placeholder="add note">
+        placeholder="添加备注">
       </textarea-autosize>
     </form>
   </v-card-text>
 
   <v-card-actions>
     <v-btn text color="secondary" @click="selectedOpen = false">
-      close
+      关闭
     </v-btn>
     <v-btn v-if="currentlyEditing !== selectedEvent.id" text @click.prevent="editEvent(selectedEvent)">
-      edit
+      编辑
     </v-btn>
     <v-btn text v-else type="submit" @click.prevent="updateEvent(selectedEvent)">
-      Save
+      提交
     </v-btn>
   </v-card-actions>
 </v-card>
@@ -152,7 +151,7 @@ export default {
       month: '月',
       week: '周',
       day: '天',
-      '4day': '四天',
+      '4day': '4天',
     },
     name: null,
     details: null,
@@ -249,19 +248,19 @@ export default {
         this.end = '',
         this.color = ''
       } else {
-        alert('You must enter event name, start, and end time')
+        alert('请输入必填项')
       }
     },
     editEvent (ev) {
       this.currentlyEditing = ev.id
     },
     async updateEvent (ev) {
-      const newDetail = doc(db,"id",this.currentlyEditing)
+      const newDetail = doc(db,"calEvent",this.currentlyEditing)
       await updateDoc(newDetail,{
         details: ev.details
       })
       this.selectedOpen = false,
-      this.currentlyEditing = null
+      this.updateEvent = null
     },
     async deleteEvent (ev) {
       await deleteDoc(doc(db,"calEvent",ev))
